@@ -1,1 +1,1631 @@
-test
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>세현ICT - GIS/CAD 솔루션 전문기업</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Bebas+Neue&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --navy: #0a1628;
+    --blue-deep: #0d2244;
+    --blue: #1a4080;
+    --blue-mid: #1e5bbf;
+    --blue-bright: #2b7fe0;
+    --blue-accent: #3fa0ff;
+    --cyan: #00c8e0;
+    --white: #ffffff;
+    --gray-light: #f0f4fa;
+    --gray: #8fa0b8;
+    --text: #1a2535;
+    --text-light: #4a5f7a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--text);
+    background: var(--white);
+    overflow-x: hidden;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 1000;
+    background: rgba(10, 22, 40, 0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid rgba(63, 160, 255, 0.15);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    height: 64px;
+    transition: all .3s;
+  }
+
+  .nav-logo {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: 2px;
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--cyan); }
+
+  .nav-links {
+    display: flex;
+    gap: 2.5rem;
+    list-style: none;
+  }
+  .nav-links a {
+    color: rgba(255,255,255,.75);
+    text-decoration: none;
+    font-size: .88rem;
+    font-weight: 500;
+    letter-spacing: .5px;
+    transition: color .2s;
+    position: relative;
+  }
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    bottom: -4px; left: 0;
+    width: 0; height: 2px;
+    background: var(--cyan);
+    transition: width .3s;
+  }
+  .nav-links a:hover { color: var(--white); }
+  .nav-links a:hover::after { width: 100%; }
+
+  .nav-cta {
+    background: var(--blue-bright);
+    color: var(--white) !important;
+    padding: .45rem 1.2rem;
+    border-radius: 4px;
+    font-weight: 700 !important;
+  }
+  .nav-cta::after { display: none !important; }
+  .nav-cta:hover { background: var(--blue-accent) !important; }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    padding: 4px;
+  }
+  .hamburger span {
+    display: block;
+    width: 24px; height: 2px;
+    background: var(--white);
+    border-radius: 2px;
+    transition: all .3s;
+  }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh;
+    background: var(--navy);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-grid {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(30,91,191,.12) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(30,91,191,.12) 1px, transparent 1px);
+    background-size: 60px 60px;
+    mask-image: radial-gradient(ellipse 80% 80% at 50% 50%, black, transparent);
+  }
+
+  .hero-glow {
+    position: absolute;
+    width: 700px; height: 700px;
+    background: radial-gradient(circle, rgba(43,127,224,.25) 0%, transparent 70%);
+    top: -150px; right: -100px;
+    pointer-events: none;
+  }
+
+  .hero-glow2 {
+    position: absolute;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(0,200,224,.15) 0%, transparent 70%);
+    bottom: 50px; left: 5%;
+    pointer-events: none;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 120px 5% 80px;
+    width: 100%;
+  }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: .5rem;
+    background: rgba(63,160,255,.12);
+    border: 1px solid rgba(63,160,255,.3);
+    padding: .4rem 1rem;
+    border-radius: 50px;
+    color: var(--cyan);
+    font-size: .8rem;
+    font-weight: 500;
+    letter-spacing: 1px;
+    margin-bottom: 1.8rem;
+    animation: fadeUp .8s ease both;
+  }
+  .hero-badge::before {
+    content: '';
+    width: 6px; height: 6px;
+    background: var(--cyan);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: .5; transform: scale(1.5); }
+  }
+
+  .hero-title {
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: clamp(2.8rem, 6vw, 5.5rem);
+    font-weight: 900;
+    color: var(--white);
+    line-height: 1.08;
+    letter-spacing: -1px;
+    animation: fadeUp .8s .15s ease both;
+    margin-bottom: 1rem;
+  }
+  .hero-title .line-accent {
+    color: var(--blue-accent);
+    display: block;
+  }
+  .hero-title .line-cyan {
+    background: linear-gradient(90deg, var(--blue-accent), var(--cyan));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    display: block;
+  }
+
+  .hero-desc {
+    font-size: clamp(1rem, 1.8vw, 1.2rem);
+    color: rgba(255,255,255,.6);
+    line-height: 1.8;
+    max-width: 540px;
+    animation: fadeUp .8s .3s ease both;
+    margin-bottom: 2.5rem;
+  }
+
+  .hero-btns {
+    display: flex;
+    gap: 1rem;
+    flex-wrap: wrap;
+    animation: fadeUp .8s .45s ease both;
+  }
+
+  .btn-primary {
+    background: linear-gradient(135deg, var(--blue-mid), var(--blue-bright));
+    color: var(--white);
+    padding: .9rem 2rem;
+    border-radius: 6px;
+    font-size: .95rem;
+    font-weight: 700;
+    text-decoration: none;
+    border: none;
+    cursor: pointer;
+    transition: all .3s;
+    box-shadow: 0 4px 20px rgba(43,127,224,.4);
+  }
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(43,127,224,.5);
+  }
+
+  .btn-outline {
+    border: 1.5px solid rgba(255,255,255,.3);
+    color: var(--white);
+    padding: .9rem 2rem;
+    border-radius: 6px;
+    font-size: .95rem;
+    font-weight: 500;
+    text-decoration: none;
+    transition: all .3s;
+    backdrop-filter: blur(4px);
+  }
+  .btn-outline:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+    transform: translateY(-2px);
+  }
+
+  .hero-stats {
+    position: absolute;
+    bottom: 60px; right: 5%;
+    display: flex;
+    gap: 2.5rem;
+    animation: fadeUp .8s .6s ease both;
+    z-index: 2;
+  }
+  .stat-item { text-align: center; }
+  .stat-num {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2.8rem;
+    font-weight: 700;
+    color: var(--white);
+    line-height: 1;
+  }
+  .stat-num span { color: var(--cyan); font-size: 1.8rem; }
+  .stat-label {
+    font-size: .75rem;
+    color: rgba(255,255,255,.5);
+    margin-top: .2rem;
+    letter-spacing: .5px;
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  .scroll-hint {
+    position: absolute;
+    bottom: 30px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; flex-direction: column; align-items: center;
+    gap: .4rem; z-index: 2;
+    animation: fadeUp 1s .8s ease both;
+  }
+  .scroll-hint span {
+    font-size: .7rem;
+    color: rgba(255,255,255,.4);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+  .scroll-line {
+    width: 1px; height: 40px;
+    background: linear-gradient(to bottom, rgba(255,255,255,.4), transparent);
+    animation: scrollAnim 2s infinite;
+  }
+  @keyframes scrollAnim {
+    0% { opacity: 0; transform: scaleY(0); transform-origin: top; }
+    50% { opacity: 1; transform: scaleY(1); transform-origin: top; }
+    100% { opacity: 0; transform: scaleY(1); transform-origin: bottom; }
+  }
+
+  /* ── SECTIONS COMMON ── */
+  section { padding: 100px 5%; }
+
+  .section-label {
+    font-size: .75rem;
+    font-weight: 700;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--blue-bright);
+    margin-bottom: .8rem;
+  }
+
+  .section-title {
+    font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+    font-weight: 900;
+    line-height: 1.2;
+    color: var(--navy);
+    margin-bottom: 1rem;
+  }
+
+  .section-desc {
+    font-size: 1rem;
+    color: var(--text-light);
+    line-height: 1.8;
+    max-width: 560px;
+  }
+
+  .section-header {
+    margin-bottom: 4rem;
+  }
+
+  /* ── ABOUT ── */
+  #about {
+    background: var(--gray-light);
+  }
+
+  .about-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+  }
+
+  .about-visual {
+    position: relative;
+  }
+
+  .about-card {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 20px 60px rgba(26,64,128,.1);
+    border: 1px solid rgba(26,64,128,.08);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .about-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: linear-gradient(90deg, var(--blue-mid), var(--cyan));
+  }
+
+  .about-icon-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+  }
+
+  .about-icon-item {
+    display: flex;
+    flex-direction: column;
+    gap: .5rem;
+  }
+
+  .icon-box {
+    width: 48px; height: 48px;
+    background: linear-gradient(135deg, var(--blue-mid), var(--blue-bright));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: .3rem;
+  }
+
+  .icon-box svg {
+    width: 24px; height: 24px;
+    fill: none;
+    stroke: white;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .icon-label {
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--navy);
+  }
+
+  .icon-sub {
+    font-size: .75rem;
+    color: var(--text-light);
+  }
+
+  .about-desc-block {
+    border-top: 1px solid var(--gray-light);
+    padding-top: 1.5rem;
+  }
+
+  .about-desc-block p {
+    font-size: .9rem;
+    color: var(--text-light);
+    line-height: 1.8;
+  }
+
+  .about-values {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .value-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .value-num {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem;
+    font-weight: 700;
+    color: rgba(30,91,191,.15);
+    line-height: 1;
+    min-width: 2.5rem;
+  }
+
+  .value-text h4 {
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: .2rem;
+  }
+
+  .value-text p {
+    font-size: .85rem;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  /* ── SERVICES ── */
+  #services {
+    background: var(--navy);
+    position: relative;
+    overflow: hidden;
+  }
+
+  #services .section-title { color: var(--white); }
+  #services .section-label { color: var(--cyan); }
+  #services .section-desc { color: rgba(255,255,255,.55); }
+
+  .services-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 60% 50% at 80% 20%, rgba(43,127,224,.12) 0%, transparent 60%),
+      radial-gradient(ellipse 40% 40% at 10% 80%, rgba(0,200,224,.08) 0%, transparent 60%);
+    pointer-events: none;
+  }
+
+  .services-inner {
+    position: relative;
+    z-index: 2;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 3rem;
+  }
+
+  .service-card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(255,255,255,.08);
+    border-radius: 16px;
+    padding: 2rem;
+    transition: all .4s;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .service-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(43,127,224,.08), transparent);
+    opacity: 0;
+    transition: opacity .4s;
+  }
+
+  .service-card:hover {
+    border-color: rgba(63,160,255,.3);
+    transform: translateY(-6px);
+    box-shadow: 0 20px 40px rgba(0,0,0,.3);
+  }
+
+  .service-card:hover::before { opacity: 1; }
+
+  .service-num {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--cyan);
+    letter-spacing: 2px;
+    margin-bottom: 1rem;
+  }
+
+  .service-icon {
+    width: 52px; height: 52px;
+    background: linear-gradient(135deg, rgba(43,127,224,.3), rgba(0,200,224,.15));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.2rem;
+    border: 1px solid rgba(63,160,255,.2);
+  }
+
+  .service-icon svg {
+    width: 26px; height: 26px;
+    fill: none;
+    stroke: var(--blue-accent);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .service-name {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--white);
+    margin-bottom: .7rem;
+  }
+
+  .service-desc {
+    font-size: .85rem;
+    color: rgba(255,255,255,.5);
+    line-height: 1.7;
+  }
+
+  .service-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: .4rem;
+    margin-top: 1.2rem;
+  }
+
+  .tag {
+    background: rgba(63,160,255,.1);
+    border: 1px solid rgba(63,160,255,.2);
+    color: var(--blue-accent);
+    font-size: .7rem;
+    font-weight: 500;
+    padding: .25rem .7rem;
+    border-radius: 50px;
+    letter-spacing: .5px;
+  }
+
+  /* ── PORTFOLIO ── */
+  #portfolio {
+    background: var(--white);
+  }
+
+  .portfolio-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .portfolio-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .portfolio-filter {
+    display: flex;
+    gap: .5rem;
+    flex-wrap: wrap;
+  }
+
+  .filter-btn {
+    background: none;
+    border: 1.5px solid rgba(26,64,128,.15);
+    color: var(--text-light);
+    font-size: .8rem;
+    font-weight: 500;
+    padding: .45rem 1rem;
+    border-radius: 50px;
+    cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all .2s;
+  }
+
+  .filter-btn.active, .filter-btn:hover {
+    background: var(--blue-bright);
+    border-color: var(--blue-bright);
+    color: var(--white);
+  }
+
+  .portfolio-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+  }
+
+  .project-card {
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(26,64,128,.08);
+    transition: all .3s;
+    cursor: pointer;
+    background: var(--white);
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 16px 40px rgba(26,64,128,.12);
+  }
+
+  .project-thumb {
+    height: 160px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .project-thumb-bg {
+    width: 100%; height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 3rem;
+    font-weight: 700;
+    letter-spacing: 2px;
+    color: rgba(255,255,255,.25);
+    transition: transform .4s;
+  }
+
+  .project-card:hover .project-thumb-bg { transform: scale(1.05); }
+
+  .project-body {
+    padding: 1.4rem;
+  }
+
+  .project-cat {
+    font-size: .7rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--blue-bright);
+    margin-bottom: .4rem;
+  }
+
+  .project-name {
+    font-size: 1rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: .4rem;
+  }
+
+  .project-desc {
+    font-size: .82rem;
+    color: var(--text-light);
+    line-height: 1.6;
+  }
+
+  .project-meta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 1rem;
+    padding-top: .8rem;
+    border-top: 1px solid var(--gray-light);
+  }
+
+  .project-year {
+    font-size: .75rem;
+    color: var(--gray);
+    font-weight: 500;
+  }
+
+  .project-arrow {
+    width: 28px; height: 28px;
+    background: var(--gray-light);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .2s;
+  }
+
+  .project-card:hover .project-arrow {
+    background: var(--blue-bright);
+  }
+
+  .project-arrow svg {
+    width: 14px; height: 14px;
+    stroke: var(--text-light);
+    fill: none;
+    stroke-width: 2;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: stroke .2s;
+  }
+
+  .project-card:hover .project-arrow svg { stroke: var(--white); }
+
+  /* ── CONTACT ── */
+  #contact {
+    background: var(--gray-light);
+  }
+
+  .contact-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1.2fr;
+    gap: 4rem;
+    align-items: start;
+  }
+
+  .contact-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-top: 2rem;
+  }
+
+  .contact-item {
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .contact-icon {
+    width: 44px; height: 44px;
+    background: var(--white);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    box-shadow: 0 4px 12px rgba(26,64,128,.1);
+    border: 1px solid rgba(26,64,128,.06);
+  }
+
+  .contact-icon svg {
+    width: 20px; height: 20px;
+    fill: none;
+    stroke: var(--blue-bright);
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .contact-item-text h4 {
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--blue-bright);
+    letter-spacing: .5px;
+    text-transform: uppercase;
+    margin-bottom: .2rem;
+  }
+
+  .contact-item-text p {
+    font-size: .92rem;
+    color: var(--text);
+    line-height: 1.6;
+  }
+
+  .map-placeholder {
+    background: linear-gradient(135deg, var(--blue-deep), var(--blue));
+    border-radius: 16px;
+    height: 220px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1rem;
+    color: rgba(255,255,255,.6);
+    font-size: .85rem;
+    margin-top: 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .map-placeholder::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
+    background-size: 30px 30px;
+  }
+
+  .map-placeholder svg {
+    width: 36px; height: 36px;
+    fill: none;
+    stroke: var(--cyan);
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    position: relative;
+    z-index: 1;
+  }
+
+  .map-placeholder span { position: relative; z-index: 1; }
+
+  /* Contact Form */
+  .contact-form {
+    background: var(--white);
+    border-radius: 16px;
+    padding: 2.5rem;
+    box-shadow: 0 10px 40px rgba(26,64,128,.08);
+    border: 1px solid rgba(26,64,128,.06);
+  }
+
+  .contact-form h3 {
+    font-size: 1.3rem;
+    font-weight: 700;
+    color: var(--navy);
+    margin-bottom: 1.8rem;
+  }
+
+  .form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+  }
+
+  .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: .4rem;
+    margin-bottom: 1rem;
+  }
+
+  .form-group label {
+    font-size: .8rem;
+    font-weight: 700;
+    color: var(--text-light);
+    letter-spacing: .3px;
+  }
+
+  .form-group input, .form-group textarea, .form-group select {
+    border: 1.5px solid rgba(26,64,128,.12);
+    border-radius: 8px;
+    padding: .75rem 1rem;
+    font-size: .9rem;
+    font-family: 'Noto Sans KR', sans-serif;
+    color: var(--text);
+    background: var(--gray-light);
+    outline: none;
+    transition: border-color .2s, background .2s;
+  }
+
+  .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+    border-color: var(--blue-bright);
+    background: var(--white);
+  }
+
+  .form-group textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+
+  .form-submit {
+    width: 100%;
+    background: linear-gradient(135deg, var(--blue-mid), var(--blue-bright));
+    color: var(--white);
+    border: none;
+    padding: .95rem;
+    border-radius: 8px;
+    font-size: .95rem;
+    font-weight: 700;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all .3s;
+    box-shadow: 0 4px 20px rgba(43,127,224,.3);
+    margin-top: .5rem;
+  }
+
+  .form-submit:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 28px rgba(43,127,224,.4);
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--navy);
+    color: rgba(255,255,255,.5);
+    padding: 50px 5% 30px;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-top {
+    display: grid;
+    grid-template-columns: 1.5fr 1fr 1fr;
+    gap: 3rem;
+    padding-bottom: 3rem;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+  }
+
+  .footer-brand .nav-logo {
+    font-size: 1.4rem;
+    display: inline-block;
+    margin-bottom: 1rem;
+  }
+
+  .footer-brand p {
+    font-size: .85rem;
+    line-height: 1.8;
+    max-width: 280px;
+  }
+
+  .footer-col h4 {
+    font-size: .85rem;
+    font-weight: 700;
+    color: var(--white);
+    letter-spacing: .5px;
+    margin-bottom: 1rem;
+  }
+
+  .footer-col ul {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: .6rem;
+  }
+
+  .footer-col ul a {
+    color: rgba(255,255,255,.45);
+    text-decoration: none;
+    font-size: .85rem;
+    transition: color .2s;
+  }
+
+  .footer-col ul a:hover { color: var(--cyan); }
+
+  .footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 2rem;
+    font-size: .8rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  /* ── MOBILE NAV ── */
+  .mobile-menu {
+    display: none;
+    position: fixed;
+    top: 64px; left: 0; right: 0;
+    background: rgba(10,22,40,.97);
+    backdrop-filter: blur(12px);
+    z-index: 999;
+    padding: 1.5rem 5%;
+    border-bottom: 1px solid rgba(255,255,255,.08);
+    flex-direction: column;
+    gap: 0;
+  }
+
+  .mobile-menu.open { display: flex; }
+
+  .mobile-menu a {
+    color: rgba(255,255,255,.75);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    padding: .9rem 0;
+    border-bottom: 1px solid rgba(255,255,255,.06);
+    display: block;
+    transition: color .2s;
+  }
+
+  .mobile-menu a:hover { color: var(--cyan); }
+  .mobile-menu a:last-child { border-bottom: none; }
+
+  /* ── SCROLL ANIMATION ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 1024px) {
+    .services-grid { grid-template-columns: repeat(2, 1fr); }
+    .portfolio-grid { grid-template-columns: repeat(2, 1fr); }
+    .about-inner { gap: 3rem; }
+    .footer-top { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hamburger { display: flex; }
+
+    section { padding: 70px 5%; }
+
+    .hero-stats {
+      position: static;
+      justify-content: flex-start;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+    }
+
+    .hero-content { padding: 100px 5% 50px; }
+
+    .about-inner {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .services-grid { grid-template-columns: 1fr; }
+
+    .portfolio-grid { grid-template-columns: 1fr; }
+
+    .portfolio-header { flex-direction: column; align-items: flex-start; }
+
+    .contact-inner { grid-template-columns: 1fr; gap: 2rem; }
+
+    .form-row { grid-template-columns: 1fr; }
+
+    .footer-top { grid-template-columns: 1fr; gap: 2rem; }
+
+    .footer-bottom { flex-direction: column; align-items: flex-start; }
+
+    .hero-title { font-size: 2.5rem; }
+  }
+
+  @media (max-width: 480px) {
+    .hero-title { font-size: 2rem; }
+    .section-title { font-size: 1.6rem; }
+    .stat-num { font-size: 2rem; }
+    .hero-btns { flex-direction: column; }
+    .btn-primary, .btn-outline { text-align: center; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="navbar">
+  <a class="nav-logo" href="#hero">SEHYUN<span>ICT</span></a>
+  <ul class="nav-links">
+    <li><a href="#about">회사소개</a></li>
+    <li><a href="#services">제품/서비스</a></li>
+    <li><a href="#portfolio">프로젝트</a></li>
+    <li><a href="#contact" class="nav-cta">문의하기</a></li>
+  </ul>
+  <div class="hamburger" id="hamburger" onclick="toggleMenu()">
+    <span></span><span></span><span></span>
+  </div>
+</nav>
+
+<!-- MOBILE MENU -->
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#about" onclick="closeMenu()">회사소개</a>
+  <a href="#services" onclick="closeMenu()">제품/서비스</a>
+  <a href="#portfolio" onclick="closeMenu()">프로젝트</a>
+  <a href="#contact" onclick="closeMenu()">문의하기</a>
+</div>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-glow2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">GIS · CAD · 공간정보 솔루션</div>
+    <h1 class="hero-title">
+      <span>더 스마트한 세상을</span>
+      <span class="line-cyan">세현ICT가 만듭니다</span>
+    </h1>
+    <p class="hero-desc">
+      GIS/CAD 기반 공간정보 솔루션 전문기업으로,<br>
+      정확한 데이터와 혁신적인 기술로<br>
+      고객의 비즈니스 가치를 높입니다.
+    </p>
+    <div class="hero-btns">
+      <a href="#services" class="btn-primary">솔루션 살펴보기</a>
+      <a href="#contact" class="btn-outline">도입 문의</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat-item">
+        <div class="stat-num">20<span>+</span></div>
+        <div class="stat-label">업력(년)</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">300<span>+</span></div>
+        <div class="stat-label">완료 프로젝트</div>
+      </div>
+      <div class="stat-item">
+        <div class="stat-num">98<span>%</span></div>
+        <div class="stat-label">고객 만족도</div>
+      </div>
+    </div>
+  </div>
+  <div class="scroll-hint">
+    <span>scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-visual reveal">
+      <div class="about-card">
+        <div class="about-icon-grid">
+          <div class="about-icon-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <span class="icon-label">GIS 플랫폼</span>
+            <span class="icon-sub">공간정보 분석/시각화</span>
+          </div>
+          <div class="about-icon-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+            </div>
+            <span class="icon-label">CAD 솔루션</span>
+            <span class="icon-sub">설계 자동화/변환</span>
+          </div>
+          <div class="about-icon-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+            </div>
+            <span class="icon-label">스마트 분석</span>
+            <span class="icon-sub">AI 기반 데이터 분석</span>
+          </div>
+          <div class="about-icon-item">
+            <div class="icon-box">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <span class="icon-label">위치정보 서비스</span>
+            <span class="icon-sub">실시간 측위/추적</span>
+          </div>
+        </div>
+        <div class="about-desc-block">
+          <p>세현ICT는 공간정보 기술의 최전선에서 고객과 함께 성장해왔습니다. 20년 이상의 축적된 기술력으로 최적의 솔루션을 제공합니다.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="section-header">
+        <div class="section-label">ABOUT US</div>
+        <h2 class="section-title">공간정보 기술로<br>더 나은 미래를 설계합니다</h2>
+        <p class="section-desc">세현ICT는 GIS · CAD · 공간정보 솔루션 분야의 전문 기업으로, 국가기관과 민간기업에 최적화된 기술을 제공합니다.</p>
+      </div>
+
+      <div class="about-values">
+        <div class="value-item">
+          <div class="value-num">01</div>
+          <div class="value-text">
+            <h4>기술 혁신</h4>
+            <p>최신 GIS/CAD 기술과 AI를 결합하여 업무 효율성을 극대화하는 솔루션을 개발합니다.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-num">02</div>
+          <div class="value-text">
+            <h4>신뢰와 전문성</h4>
+            <p>20년 이상의 경험을 바탕으로 공공 및 민간 고객에게 검증된 솔루션을 제공합니다.</p>
+          </div>
+        </div>
+        <div class="value-item">
+          <div class="value-num">03</div>
+          <div class="value-text">
+            <h4>고객 중심 서비스</h4>
+            <p>도입 전 컨설팅부터 사후 유지보수까지 고객의 성공을 함께합니다.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="services-bg"></div>
+  <div class="services-inner">
+    <div class="section-header reveal">
+      <div class="section-label">PRODUCTS & SERVICES</div>
+      <h2 class="section-title">검증된 솔루션,<br>최고의 기술력</h2>
+      <p class="section-desc">다양한 산업 분야에 최적화된 GIS/CAD 솔루션을 경험해보세요.</p>
+    </div>
+
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <div class="service-num">01</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+        </div>
+        <div class="service-name">GIS 플랫폼 솔루션</div>
+        <div class="service-desc">공간 데이터의 수집·분석·시각화를 통합 지원하는 엔터프라이즈 GIS 플랫폼. 실시간 지도 렌더링과 대용량 공간 데이터 처리를 지원합니다.</div>
+        <div class="service-tags">
+          <span class="tag">Web GIS</span>
+          <span class="tag">공간 분석</span>
+          <span class="tag">실시간 데이터</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">02</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
+        </div>
+        <div class="service-name">CAD 자동화 솔루션</div>
+        <div class="service-desc">설계 도면 자동 생성 및 변환, 품질 검사 자동화를 통해 설계 업무의 생산성을 획기적으로 향상시킵니다.</div>
+        <div class="service-tags">
+          <span class="tag">도면 자동화</span>
+          <span class="tag">포맷 변환</span>
+          <span class="tag">품질 검사</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">03</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="service-name">공간정보 데이터 서비스</div>
+        <div class="service-desc">위성·드론·현장 측량 데이터를 통합 관리하고 정밀 위치정보 서비스를 구축합니다.</div>
+        <div class="service-tags">
+          <span class="tag">드론 측량</span>
+          <span class="tag">LiDAR</span>
+          <span class="tag">정밀 위치</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">04</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+        </div>
+        <div class="service-name">스마트시티 솔루션</div>
+        <div class="service-desc">교통, 환경, 에너지 등 도시 인프라 데이터를 공간정보와 연계하여 통합 관리하는 스마트시티 플랫폼입니다.</div>
+        <div class="service-tags">
+          <span class="tag">도시 통합 관제</span>
+          <span class="tag">IoT 연동</span>
+          <span class="tag">대시보드</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">05</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83"/></svg>
+        </div>
+        <div class="service-name">3D 공간 모델링</div>
+        <div class="service-desc">BIM 및 3D GIS 기반의 건축·토목 설계 지원과 가상 현실 공간 시뮬레이션 서비스를 제공합니다.</div>
+        <div class="service-tags">
+          <span class="tag">BIM</span>
+          <span class="tag">3D GIS</span>
+          <span class="tag">시뮬레이션</span>
+        </div>
+      </div>
+
+      <div class="service-card reveal">
+        <div class="service-num">06</div>
+        <div class="service-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div class="service-name">기술 컨설팅 & 유지보수</div>
+        <div class="service-desc">도입 기획부터 시스템 구축, 교육, 운영 유지보수까지 전 과정을 책임지는 기술 파트너 서비스입니다.</div>
+        <div class="service-tags">
+          <span class="tag">기술 컨설팅</span>
+          <span class="tag">교육</span>
+          <span class="tag">유지보수</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO -->
+<section id="portfolio">
+  <div class="portfolio-inner">
+    <div class="portfolio-header reveal">
+      <div>
+        <div class="section-label">PROJECTS</div>
+        <h2 class="section-title">주요 프로젝트</h2>
+      </div>
+      <div class="portfolio-filter">
+        <button class="filter-btn active" onclick="filterProjects('all', this)">전체</button>
+        <button class="filter-btn" onclick="filterProjects('gis', this)">GIS</button>
+        <button class="filter-btn" onclick="filterProjects('cad', this)">CAD</button>
+        <button class="filter-btn" onclick="filterProjects('smart', this)">스마트시티</button>
+      </div>
+    </div>
+
+    <div class="portfolio-grid" id="portfolioGrid">
+
+      <div class="project-card reveal" data-cat="gis">
+        <div class="project-thumb">
+          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #1a4080, #2b7fe0);">GIS</div>
+        </div>
+        <div class="project-body">
+          <div class="project-cat">GIS</div>
+          <div class="project-name">국토정보 통합관리 시스템</div>
+          <div class="project-desc">전국 토지 현황 데이터의 실시간 수집·통합 관리 플랫폼 구축</div>
+          <div class="project-meta">
+            <span class="project-year">2023</span>
+            <span class="project-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" data-cat="smart">
+        <div class="project-thumb">
+          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #0d2244, #1a4080);">SMART</div>
+        </div>
+        <div class="project-body">
+          <div class="project-cat">스마트시티</div>
+          <div class="project-name">스마트 교통정보 관제 플랫폼</div>
+          <div class="project-desc">실시간 교통 데이터 수집 및 AI 기반 혼잡 예측·제어 시스템</div>
+          <div class="project-meta">
+            <span class="project-year">2023</span>
+            <span class="project-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" data-cat="cad">
+        <div class="project-thumb">
+          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #1e5bbf, #3fa0ff);">CAD</div>
+        </div>
+        <div class="project-body">
+          <div class="project-cat">CAD</div>
+          <div class="project-name">도면 자동화 변환 시스템</div>
+          <div class="project-desc">구형 CAD 도면의 표준 포맷 자동 변환 및 품질 검증 솔루션</div>
+          <div class="project-meta">
+            <span class="project-year">2022</span>
+            <span class="project-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" data-cat="gis">
+        <div class="project-thumb">
+          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #00c8e0, #1a4080);">GIS</div>
+        </div>
+        <div class="project-body">
+          <div class="project-cat">GIS</div>
+          <div class="project-name">재난안전 공간정보 시스템</div>
+          <div class="project-desc">재난 발생 시 피해 현황 분석 및 대응 경로 최적화 지원 플랫폼</div>
+          <div class="project-meta">
+            <span class="project-year">2022</span>
+            <span class="project-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" data-cat="smart">
+        <div class="project-thumb">
+          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #0a1628, #1e5bbf);">IoT</div>
+        </div>
+        <div class="project-body">
+          <div class="project-cat">스마트시티</div>
+          <div class="project-name">스마트 환경 모니터링</div>
+          <div class="project-desc">도시 내 대기·소음·수질 센서 데이터의 실시간 수집 및 지도 기반 시각화</div>
+          <div class="project-meta">
+            <span class="project-year">2021</span>
+            <span class="project-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card reveal" data-cat="cad">
+        <div class="project-thumb">
+          <div class="project-thumb-bg" style="background: linear-gradient(135deg, #2b7fe0, #00c8e0);">BIM</div>
+        </div>
+        <div class="project-body">
+          <div class="project-cat">CAD</div>
+          <div class="project-name">BIM 기반 시설물 관리 시스템</div>
+          <div class="project-desc">3D BIM 모델과 GIS 연동을 통한 공공 시설물 생애주기 통합 관리</div>
+          <div class="project-meta">
+            <span class="project-year">2021</span>
+            <span class="project-arrow">
+              <svg viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section id="contact">
+  <div class="contact-inner">
+    <div class="reveal">
+      <div class="section-label">CONTACT</div>
+      <h2 class="section-title">함께 시작해볼까요?</h2>
+      <p class="section-desc">솔루션 도입 상담부터 기술 문의까지 편하게 연락주세요.</p>
+
+      <div class="contact-info">
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+          <div class="contact-item-text">
+            <h4>주소</h4>
+            <p>서울특별시 강남구 테헤란로 123<br>세현빌딩 5층</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07 19.5 19.5 0 01-6-6 19.79 19.79 0 01-3.07-8.67A2 2 0 014.11 2h3a2 2 0 012 1.72 12.84 12.84 0 00.7 2.81 2 2 0 01-.45 2.11L8.09 9.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45 12.84 12.84 0 002.81.7A2 2 0 0122 16.92z"/></svg>
+          </div>
+          <div class="contact-item-text">
+            <h4>전화</h4>
+            <p>02-1234-5678</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><path d="M22 6l-10 7L2 6"/></svg>
+          </div>
+          <div class="contact-item-text">
+            <h4>이메일</h4>
+            <p>info@sehyunict.co.kr</p>
+          </div>
+        </div>
+        <div class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>
+          </div>
+          <div class="contact-item-text">
+            <h4>업무시간</h4>
+            <p>월~금 09:00 – 18:00<br>(토·일·공휴일 휴무)</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="map-placeholder">
+        <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        <span>지도 영역 (Google Maps 또는 카카오맵 삽입)</span>
+      </div>
+    </div>
+
+    <div class="contact-form reveal">
+      <h3>📩 문의 보내기</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>이름 *</label>
+          <input type="text" placeholder="홍길동">
+        </div>
+        <div class="form-group">
+          <label>회사명</label>
+          <input type="text" placeholder="회사명 입력">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>이메일 *</label>
+          <input type="email" placeholder="example@company.com">
+        </div>
+        <div class="form-group">
+          <label>연락처</label>
+          <input type="tel" placeholder="010-0000-0000">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>문의 유형</label>
+        <select>
+          <option value="">선택해주세요</option>
+          <option>GIS 솔루션 도입 문의</option>
+          <option>CAD 솔루션 도입 문의</option>
+          <option>스마트시티 솔루션</option>
+          <option>기술 컨설팅</option>
+          <option>기타 문의</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>문의 내용 *</label>
+        <textarea placeholder="문의 내용을 입력해 주세요..."></textarea>
+      </div>
+      <button class="form-submit" onclick="handleSubmit()">문의 보내기 →</button>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-top">
+      <div class="footer-brand">
+        <a class="nav-logo" href="#hero">SEHYUN<span>ICT</span></a>
+        <p>GIS · CAD · 공간정보 솔루션 전문기업<br>기술로 더 스마트한 세상을 만들어 갑니다.</p>
+      </div>
+      <div class="footer-col">
+        <h4>바로가기</h4>
+        <ul>
+          <li><a href="#about">회사소개</a></li>
+          <li><a href="#services">제품/서비스</a></li>
+          <li><a href="#portfolio">프로젝트</a></li>
+          <li><a href="#contact">문의하기</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>솔루션</h4>
+        <ul>
+          <li><a href="#services">GIS 플랫폼</a></li>
+          <li><a href="#services">CAD 자동화</a></li>
+          <li><a href="#services">스마트시티</a></li>
+          <li><a href="#services">3D 모델링</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2024 세현ICT. All rights reserved.</span>
+      <span>사업자등록번호: 000-00-00000</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // Mobile menu
+  function toggleMenu() {
+    document.getElementById('mobileMenu').classList.toggle('open');
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu').classList.remove('open');
+  }
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => entry.target.classList.add('visible'), i * 80);
+      }
+    });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => observer.observe(el));
+
+  // Nav scroll effect
+  window.addEventListener('scroll', () => {
+    const nav = document.getElementById('navbar');
+    if (window.scrollY > 50) {
+      nav.style.background = 'rgba(10, 22, 40, 0.98)';
+      nav.style.boxShadow = '0 2px 20px rgba(0,0,0,.3)';
+    } else {
+      nav.style.background = 'rgba(10, 22, 40, 0.92)';
+      nav.style.boxShadow = 'none';
+    }
+  });
+
+  // Portfolio filter
+  function filterProjects(cat, btn) {
+    document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.querySelectorAll('.project-card').forEach(card => {
+      if (cat === 'all' || card.dataset.cat === cat) {
+        card.style.display = '';
+        setTimeout(() => card.style.opacity = '1', 10);
+      } else {
+        card.style.opacity = '0';
+        setTimeout(() => card.style.display = 'none', 300);
+      }
+    });
+  }
+
+  // Form submit
+  function handleSubmit() {
+    alert('문의가 접수되었습니다.\n담당자가 빠르게 연락드리겠습니다.');
+  }
+</script>
+</body>
+</html>
